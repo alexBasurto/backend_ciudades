@@ -35,7 +35,8 @@ Añadimos y/o modificamos lo siguiente:
 
 Quedando así el contenido de **package.json**:
 
-```json{
+```json
+{
   "name": "backend_ciudades",
   "version": "1.0.0",
   "description": "backend_ciudades",
