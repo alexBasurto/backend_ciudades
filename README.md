@@ -93,3 +93,8 @@ app.listen(3000, () => console.log("Servidor web en marcha en puerto 3000."));
 ```
 
 ###### Creamos .gitignore y lo alimentamos
+Creamos en la carpeta principal el archivo *.gitignore* y añadimos la siguiente línea:
+
+```
+node_modules
+```
