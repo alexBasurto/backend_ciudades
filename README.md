@@ -1,8 +1,6 @@
-# backend_ciudades
-backend_ciudades
+# BACKEND CIUDADES
+Paso a paso del proyecto y explicación del código.
 
-
-# Paso a paso
 ## Instalaciones
 
 ###### Inicializamos npm
@@ -180,3 +178,5 @@ Por último, debemos indicar a la instancia de ExpressJS que hay una carpeta des
 // Configura el middleware para servir archivos estáticos desde el directorio "public".
 app.use(express.static("public"));
 ```
+
+## Código JS paso a paso
