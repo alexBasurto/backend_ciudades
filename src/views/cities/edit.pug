@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    h1 Editar Ciudad
+    if error
+        h2= error
+    form(action=`/cities/${city.id}`, method="post") 
+        label(for="city") Nombre Ciudad
+        input(type="text", name="city", id="city", value=city.nameCity)
+        label(for="population") Población
+        input(type="text", name="population", id="population", value=city.population)
+        input(type="submit", value="guardar")

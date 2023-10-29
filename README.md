@@ -3,7 +3,7 @@ Paso a paso del proyecto y explicación del código.
 
 ## Instalaciones
 
-###### Inicializamos npm
+###### Inicializamos NPM
 
 NPM es el sistema de gestión de paquetes por defecto para NodeJS.
 Inicializamos NPM (esto creará package.json).
@@ -20,7 +20,7 @@ npm init -y
 
 - package-lock.json es el fichero que contiene las **versiones exactas**. En principio nunca tendremos que modificar su contenido.
 
-###### Instalamos nodemon y express
+###### Instalamos Nodemon y ExpressJS
 Usamos NodeJS como entorno de ejecución.
 
 Durante el desarrollo, por comodidad, ejecutaremos el código con Nodemon en vez de con NodeJS.
@@ -105,6 +105,15 @@ app.listen(3000, () => console.log("Servidor web en marcha en puerto 3000."));
 ```
 💡 En nuestro archivo index.js es altamente recomendable que la última parte del codigo sea el app.listen(), y la anteúltima parte el router (veremos más adelante en que consiste el router).
 
+Podemos añadir el siguiente trozo de código para comprobar que funciona correctamente: debería mostrar el texto 'Hola Mundo' en el navegador al llamar a `localhost:3000`.
+
+```js
+// Respuesta a la llamada GET para que devuelva un texto de prueba.
+app.get("/", (req, res) => {
+    res.send("Hola Mundo");
+});
+```
+
 ###### Creamos .gitignore y lo alimentamos
 Creamos en la carpeta principal el archivo *.gitignore* y añadimos la siguiente línea:
 
@@ -114,26 +123,47 @@ node_modules
 
 En este fichero añadiríamos todos los archivos y carpetas que queramos que sean excluidos de los procesos de GIT.
 
-###### Instalamos JWT (JSON web token)
+###### Express-Session
+`express-session` es un módulo middleware de Node.js que se utiliza con Express.js. Permite gestionar sesiones de usuario en aplicaciones web. Con `express-session`, puedes crear, almacenar y administrar sesiones de usuario de forma segura en tu aplicación Express. Esto es útil para mantener un estado y autenticar a los usuarios a lo largo de sus interacciones con la aplicación web.
+
+Instalamos Express-Session:
+```bash
+npm install express-session
+```
+
+<!-- ###### Instalamos JWT (JSON web token)
 Un JSON Web Token (JWT) es un formato para transmitir información segura entre partes. Consiste en tres partes: un encabezado con información del token, un cuerpo con datos relevantes y una firma para verificar su autenticidad. Los JWT se utilizan comúnmente para la autenticación y autorización en aplicaciones web y servicios API. Son autocontenidos y no requieren consultar bases de datos adicionales. La seguridad depende de mantener la clave secreta segura.
 
 Instalamos JWT:
 ```bash
 npm install jsonwebtoken
-```
+``` -->
 
 ###### Instalamos DOTENV
 Dotenv es una biblioteca de Node.js que permite cargar variables de entorno desde un archivo .env en una aplicación, lo que facilita la gestión de configuraciones sensibles como contraseñas, claves de API y otros valores de entorno. Estas variables se pueden acceder en el código como variables regulares, lo que simplifica la configuración de una aplicación y la hace más segura.
 
-Por ejemplo, en nuestro proyecto, lo usaremos para almacenar tanto JSON_SECRET como SESSION_SECRET:
-```env
-JSON_SECRET=hola mundo
-SESSION_SECRET=loquetusientesesunasesion
-```
 Lo instalamos:
 ```bash
 npm install dotenv
 ```
+
+Creamos nuestro fichero de variables de entorno .env en la ruta raíz: lo usaremos para almacenar tanto JSON_SECRET como SESSION_SECRET:
+
+```env
+JSON_SECRET=hola mundo
+SESSION_SECRET=loquetusientesesunasesion
+```
+💡 Este fichero .env no está en el repositorio de GitHub. Habrá que crearlo.
+
+Configuramos index.js para que tenga en cuenta las variables de entorno:
+
+```js
+//...
+import dotenv from "dotenv";
+// Carga las variables de entorno desde un archivo ".env".
+dotenv.config();
+```
+
 ###### Instalamos PUG
 Pug, anteriormente conocido como Jade, es un **gestor de plantillas para JavaScript que simplifica la creación de HTML** al permitirte escribir código HTML de manera más concisa y legible utilizando una sintaxis simplificada.
 
@@ -180,3 +210,68 @@ app.use(express.static("public"));
 ```
 
 ## Código JS paso a paso
+###### Estructura de ficheros
+Procedemos a crear el árbol de carpetas.
+- PROYECTO
+    - /node_modules
+        ...
+    - /public
+            - /css
+            - /js
+    - /src
+        - /controllers
+        - /middlewares
+        - /routes
+        - /views
+
+A su vez, en cada una de las carpetas de `src` (`controllers`, `views`...) podemos organizar por *entidades*.
+
+
+###### MODELO (MVC)
+Como de momento no contamos con una bbdd MySQL, llevamos a cabo una representación simplificada de lo que sería un MODELO: un array con 50 ciudades:
+
+`citiesController.js`
+```js
+// Representación muy simplificada de un MODELO (hablando del patrón de diseño MODELO-VISTA-CONTROLADOR).
+const nombresCiudades = [
+    "Nueva York",
+    "París",
+    "Londres",
+    "Tokio",
+    ...
+]
+```
+
+Esta representación simplificada no nos permitirá ver como un módelo interactua con una base de datos, por ejemplo, MySQL.
+
+###### CONTROLADORES (MVC)
+Controladores de modelo y controladores de vistas
+    - citiesController.js
+    - citiesViewController.js
+    - authController.js
+
+###### VISTAS (MVC)
+Creamos las vistas a la vez que, o teniendo en cuenta los controladores de vistas.
+    - cities/
+        - edit.pug
+        - list.pug
+    - auth/
+        - login.pug
+    - home.pug
+    - layout.pug
+
+###### ENRUTAMIENTO (con Router, de ExpressJS)
+    - citiesRouter.js
+    - authRouter.js
+    - router.js
+
+###### MIDDLEWARE
+`authMiddleware.js` comprueba que se haya iniciado sesión.
+
+###### INDEX.JS
+El archivo index.js es el archivo principal de una aplicación web basada en Node.js y Express.
+
+Este archivo es el punto de entrada principal de la aplicación web. Configura middleware, rutas, sesiones de usuario, y manejo de vistas. También inicia el servidor Express en el puerto 3006 y muestra un mensaje en la consola cuando se inicia la aplicación. La aplicación sirve vistas, gestiona sesiones de usuario y maneja solicitudes entrantes utilizando las rutas definidas en el enrutador.
+
+###### CARPETA STATIC (CARPETA PUBLIC)
+Almacena hojas de estilo (CSS) y otros recursos estáticos, como imágenes y scripts que son utilizados por el cliente (FrontEnd).

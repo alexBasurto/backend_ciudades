@@ -1,0 +1,10 @@
+extends ../layout
+
+block content 
+    h1 Lista de Ciudades
+    if error
+        h2 No se han encontrado datos
+    else if cities
+        ul
+            each city in cities
+                li=city.nameCity + " " + city.population

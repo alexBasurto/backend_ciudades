@@ -1,0 +1,16 @@
+// Aquí metemos todo lo que se repite en cada html (headers, footers, navs...)
+
+html
+  head
+    title CIUDADES DEL MUNDO
+    link(rel="stylesheet" href="./css/style.css")
+body
+    nav
+        a(href="/") Home
+        a(href="/cities") Lista de ciudades
+        a(href="/login") Login
+        a(href="/logout") Logout
+    block content
+
+    script(type="module", src="./js/layout.js") 
+    block script
